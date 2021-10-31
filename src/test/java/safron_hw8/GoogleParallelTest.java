@@ -2,6 +2,7 @@ package safron_hw8;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import org.checkerframework.framework.qual.PreconditionAnnotation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
@@ -11,35 +12,26 @@ import org.junit.jupiter.params.provider.*;
 import safron_hw8.domain.MenuItem;
 import safron_hw8.page.YandexMainPage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 @ExtendWith({SimpleCallback.class, YandexTestCondition.class})
-public class ParallelTest {
+public class GoogleParallelTest {
 
-    private static String name = "Dima";
-
-    static Stream<Arguments> testWithMethodSource() {
+    static Stream<Arguments> checkSearchResultForSeveralMenuItems() {
         return  Stream.of(
                 Arguments.of(
-                        1, name, List.of("Вася", "Петя")
+                        1, "String", new ArrayList<>()
                 ),
                 Arguments.of(
-                        2, name,List.of("Дима", "Саша")
+                        2, "String", new ArrayList<>()
                 )
         );
     }
 
-    @MethodSource("testWithMethodSource")
-    @ParameterizedTest()
-    void testWithMethodSource(int i, String str, List list) {
-        doSmth(list);
-    }
 
-    private  void doSmth(List names) {
-        System.out.println(names);
-    }
-
+    @MethodSource()
     @EnumSource(value = MenuItem.class, names = {"SEARCH"}, mode = EnumSource.Mode.EXCLUDE)
     @ParameterizedTest(name = "{1}")
     //void checkSearchResultForSeveralMenuItems(int i, String str, List<?> List){
